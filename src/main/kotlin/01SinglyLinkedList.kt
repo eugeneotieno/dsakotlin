@@ -7,6 +7,9 @@ This is a problem where LinkedList comes into play and solves the insertion prob
 fun main() {
     println("Welcome to LinkedList!")
     val singlyLinkList = SinglyLinkList<String>()
+    singlyLinkList.add("I")
+    singlyLinkList.add("love")
+    singlyLinkList.add("Kotlin!")
 
 }
 
@@ -64,31 +67,19 @@ class SinglyLinkList<E> {
         return element
     }
 
-    fun addHead(element: E) {
+    fun add(element: E) {
         val h = head
-        val newHead = Node(element, h)
-        head = newHead
+        val newNode = Node(element, h)
+        head = newNode
         if (h == null) {
-            tail = newHead
-        }
-        size++
-    }
-
-    fun addTail(element: E) {
-        val t = tail
-        val newTail = Node(element, null)
-        tail = newTail
-        if (t == null) {
-            head = newTail
-        } else {
-            t.next = newTail
+            tail = newNode
         }
         size++
     }
 
     fun add(index: Int, element: E) {
         validatePositionIndex(index)
-        if (index == 0) addHead(element)
+        if (index == 0) add(element)
         else {
             var x = head
             val prevIndex = index - 1
@@ -100,6 +91,18 @@ class SinglyLinkList<E> {
             x.next = newNode
             size++
         }
+    }
+
+    fun addLast(element: E) {
+        val t = tail
+        val newNode = Node(element, null)
+        tail = newNode
+        if (t == null) {
+            head = newNode
+        } else {
+            t.next = newNode
+        }
+        size++
     }
 
     fun getFirst() = head?.element
@@ -165,7 +168,11 @@ class SinglyLinkList<E> {
 
     fun remove(index: Int): E {
         validateElementIndex(index)
-        return unlink(node(index))
+        var x = head
+        for (i in 0 until index) {
+            x = x!!.next
+        }
+        return unlink(x!!)
     }
 
     fun clear() {
